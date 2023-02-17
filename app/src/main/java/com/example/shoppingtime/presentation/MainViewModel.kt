@@ -3,11 +3,13 @@ package com.example.shoppingtime.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.shoppingtime.data.ShopListRepositoryImpl
 import com.example.shoppingtime.domain.DeleteIteShopItemUseCase
 import com.example.shoppingtime.domain.EditShopItemUseCase
 import com.example.shoppingtime.domain.GetShopListUseCase
 import com.example.shoppingtime.domain.ShopItem
+import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application): AndroidViewModel(application) {
 
@@ -20,12 +22,16 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     val shopList = getShopListUseCase.getShopList()
 
     fun deleteShopItem(shopItem: ShopItem) {
-        deleteShopItemUseCase.deleteShoItem(shopItem)
+        viewModelScope.launch {
+            deleteShopItemUseCase.deleteShoItem(shopItem)
+        }
     }
 
     fun changeEnableState (shopItem: ShopItem){
-        val newItem = shopItem.copy( enabled = !shopItem.enabled)
-        editShopItemUseCase.editShopItem(newItem)
+        viewModelScope.launch {
+            val newItem = shopItem.copy( enabled = !shopItem.enabled)
+            editShopItemUseCase.editShopItem(newItem)
+        }
     }
 
 }
