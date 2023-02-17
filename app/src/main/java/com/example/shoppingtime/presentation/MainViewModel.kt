@@ -1,17 +1,17 @@
 package com.example.shoppingtime.presentation
 
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import com.example.shoppingtime.data.ShopListRepositoryImpl
 import com.example.shoppingtime.domain.DeleteIteShopItemUseCase
 import com.example.shoppingtime.domain.EditShopItemUseCase
 import com.example.shoppingtime.domain.GetShopListUseCase
 import com.example.shoppingtime.domain.ShopItem
 
-class MainViewModel: ViewModel() {
+class MainViewModel(application: Application): AndroidViewModel(application) {
 
-    private val repository = ShopListRepositoryImpl
+    private val repository = ShopListRepositoryImpl(application)
 
     private val getShopListUseCase = GetShopListUseCase(repository)
     private val deleteShopItemUseCase = DeleteIteShopItemUseCase(repository)
